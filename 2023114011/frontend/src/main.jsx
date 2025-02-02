@@ -1,7 +1,6 @@
-// filepath: /Users/ishaan/Desktop/IIIT/sem4/dass/Buy-Sell-IIITH/2023114011/frontend/src/main.jsx
-import { StrictMode } from 'react';
+import { StrictMode, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import './index.css';
 import App from './App.jsx';
 import Registration from './pages/registration.jsx';
@@ -14,8 +13,20 @@ import DeliverItems from './pages/deliveritems.jsx';
 import SellItems from './pages/sellitems.jsx';
 import ItemDetails from './pages/itemdetails.jsx';
 import Support from './pages/support.jsx';
+import Register from './pages/register.jsx';
 
 function PrivateRoute({ children }) {
+  const location = useLocation();
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const token = params.get('token');
+    if (token) {
+      localStorage.setItem('token', token);
+      window.history.replaceState({}, document.title, location.pathname); // remove token from URL
+      window.location.reload(); 
+    }
+  }, [location]);
+
   const token = localStorage.getItem('token');
   return token ? children : <Navigate to="/login" />;
 }
@@ -25,7 +36,8 @@ createRoot(document.getElementById('root')).render(
     <Router>
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="/register" element={<Registration />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/registration" element={<Registration />} />
         <Route path="/login" element={<Login />} />
         <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
         <Route path="/search-items" element={<PrivateRoute><SearchItems /></PrivateRoute>} />

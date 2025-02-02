@@ -1,8 +1,7 @@
-// filepath: /Users/ishaan/Desktop/IIIT/sem4/dass/Buy-Sell-IIITH/2023114011/frontend/src/pages/registration.jsx
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import '../design/registration.css'; // Import the CSS file
+import '../design/registration.css'; 
 
 function Registration() {
   const [formData, setFormData] = useState({
@@ -12,6 +11,7 @@ function Registration() {
     age: '',
     contactNumber: '',
     password: '',
+    isCasUser: false, 
   });
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -50,6 +50,7 @@ function Registration() {
         <input type="number" name="age" placeholder="Age" onChange={handleChange} required />
         <input type="text" name="contactNumber" placeholder="Contact Number" onChange={handleChange} required />
         <input type="password" name="password" placeholder="Password" onChange={handleChange} required />
+        <input type="hidden" name="isCasUser" value="false" /> 
         <button type="submit">Register</button>
       </form>
       {error && <p className="error-message">{error}</p>}

@@ -1,4 +1,3 @@
-// filepath: backend/models/Item.js
 const mongoose = require('mongoose');
 
 const itemSchema = new mongoose.Schema({

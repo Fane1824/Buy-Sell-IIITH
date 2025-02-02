@@ -1,9 +1,8 @@
-// filepath: /Users/ishaan/Desktop/IIIT/sem4/dass/Buy-Sell-IIITH/2023114011/frontend/src/pages/profile.jsx
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from '../components/navbar';
-import { useNavigate } from 'react-router-dom';
-import '../design/profile.css'; // Import the CSS file
+import { useNavigate, useLocation } from 'react-router-dom';
+import '../design/profile.css'; 
 
 function Profile() {
   const [user, setUser] = useState({});
@@ -11,6 +10,16 @@ function Profile() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const token = params.get('token');
+    if (token) {
+      localStorage.setItem('token', token);
+      navigate('/profile', { replace: true });
+    }
+  }, [location, navigate]);
 
   useEffect(() => {
     fetchUserDetails();

@@ -1,8 +1,7 @@
-// filepath: /Users/ishaan/Desktop/IIIT/sem4/dass/Buy-Sell-IIITH/2023114011/frontend/src/pages/login.jsx
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import '../design/login.css'; // Import the CSS file
+import '../design/login.css'; 
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -24,6 +23,10 @@ function Login() {
       console.error('Error logging in:', error);
       setError('An error occurred. Please try again.');
     }
+  };
+
+  const handleCASLogin = () => {
+    window.location.href = 'http://localhost:5001/api/auth/cas/login';
   };
 
   return (
@@ -48,6 +51,7 @@ function Login() {
       </form>
       {error && <p className="error-message">{error}</p>}
       <button onClick={() => navigate('/register')}>Go to Registration</button>
+      <button onClick={handleCASLogin}>Login with CAS</button>
     </div>
   );
 }

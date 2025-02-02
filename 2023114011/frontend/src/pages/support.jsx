@@ -1,4 +1,3 @@
-// filepath: /Users/ishaan/Desktop/IIIT/sem4/dass/Buy-Sell-IIITH/2023114011/frontend/src/pages/Support.jsx
 import { useState } from 'react';
 import axios from 'axios';
 import Navbar from '../components/navbar';
@@ -22,7 +21,7 @@ function Support() {
       });
       const botMessage = { sender: 'bot', text: response.data.reply };
       setMessages([...messages, userMessage, botMessage]);
-      setError(''); // Clear any previous error
+      setError(''); 
     } catch (error) {
       console.error('Error sending message:', error);
       setError('An error occurred. Please try again.');

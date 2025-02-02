@@ -1,9 +1,8 @@
-// filepath: /Users/ishaan/Desktop/IIIT/sem4/dass/Buy-Sell-IIITH/2023114011/frontend/src/pages/itemdetails.jsx
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from '../components/navbar';
-import '../design/itemdetails.css'; // Import the CSS file
+import '../design/itemdetails.css'; 
 
 function ItemDetails() {
   const { id } = useParams();
@@ -65,16 +64,16 @@ function ItemDetails() {
       });
       if (response.data.success) {
         setSuccess(response.data.message);
-        setError(''); // Clear any previous error
-        setInCart(true); // Update the state to reflect the item is in the cart
+        setError(''); 
+        setInCart(true); // update the state to reflect the item is in the cart
       } else {
         setError(response.data.message);
-        setSuccess(''); // Clear any previous success message
+        setSuccess(''); 
       }
     } catch (error) {
       console.error('Error adding to cart:', error);
       setError('An error occurred. Please try again.');
-      setSuccess(''); // Clear any previous success message
+      setSuccess(''); 
     }
   };
 
@@ -86,16 +85,16 @@ function ItemDetails() {
       });
       if (response.data.success) {
         setSuccess(response.data.message);
-        setError(''); // Clear any previous error
-        setInCart(false); // Update the state to reflect the item is not in the cart
+        setError(''); 
+        setInCart(false); // update the state to reflect the item is not in the cart
       } else {
         setError(response.data.message);
-        setSuccess(''); // Clear any previous success message
+        setSuccess(''); 
       }
     } catch (error) {
       console.error('Error removing from cart:', error);
       setError('An error occurred. Please try again.');
-      setSuccess(''); // Clear any previous success message
+      setSuccess(''); 
     }
   };
 

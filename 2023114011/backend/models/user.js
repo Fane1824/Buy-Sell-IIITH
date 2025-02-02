@@ -6,8 +6,9 @@ const userSchema = new mongoose.Schema({
   email: { type: String, unique: true },
   age: Number,
   contactNumber: String,
-  password: String,
+  password: { type: String, required: function() { return !this.isCasUser; } },
   cart: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Item' }],
+  isCasUser: { type: Boolean, default: false }
 });
 
 const User = mongoose.model('User', userSchema);

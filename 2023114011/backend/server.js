@@ -1,4 +1,3 @@
-// filepath: backend/server.js
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -9,14 +8,25 @@ const dotenv = require('dotenv');
 const User = require('./models/user');
 const Item = require('./models/item');
 const Order = require('./models/order');
+const CAS = require('cas-authentication');
+const session = require('express-session');
+
 const crypto = require('crypto');
-// const axios = require('axios')
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5001; // Change the port number here
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || 'your-secret-key', // Secret key for session encryption
+    resave: false, // Do not resave unchanged sessions
+    saveUninitialized: true, // Save new sessions
+    cookie: { secure: false }, // Set to true if using HTTPS
+  })
+);
+
+const PORT = process.env.PORT || 5001;
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -25,8 +35,22 @@ mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err));
 
+
+const cas = new CAS({
+  cas_url: process.env.CAS_URL || 'https://login.iiit.ac.in/cas', // CAS server URL
+  service_url: process.env.SERVICE_URL || 'http://localhost:5001', 
+  cas_version: '3.0', // CAS protocol version
+});
+
+// CAS middleware
+app.use((req, res, next) => {
+  req.cas = cas;
+  next();
+});
+
+
 app.post('/register', async (req, res) => {
-  const { firstName, lastName, email, age, contactNumber, password } = req.body;
+  const { firstName, lastName, email, age, contactNumber, password, isCasUser } = req.body; // 
 
   try {
     const existingUser = await User.findOne({ email });
@@ -34,7 +58,7 @@ app.post('/register', async (req, res) => {
       return res.status(400).json({ success: false, message: 'Email already registered' });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = isCasUser ? null : await bcrypt.hash(password, 10); 
 
     const newUser = new User({
       firstName,
@@ -43,12 +67,13 @@ app.post('/register', async (req, res) => {
       age,
       contactNumber,
       password: hashedPassword,
+      isCasUser 
     });
 
     await newUser.save();
     res.status(201).json({ success: true, message: 'User registered successfully' });
   } catch (error) {
-    console.error('Registration error:', error); // Log the error details
+    console.error('Registration error:', error); // log error details
     res.status(500).json({ success: false, message: 'An error occurred. Please try again.' });
   }
 });
@@ -70,12 +95,12 @@ app.post('/login', async (req, res) => {
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
     res.status(200).json({ success: true, token });
   } catch (error) {
-    console.error('Login error:', error); // Log the error details
+    console.error('Login error:', error); // log the error details
     res.status(500).json({ success: false, message: 'An error occurred. Please try again.' });
   }
 });
 
-// Middleware to authenticate the user
+// authenticates the user
 const authenticate = (req, res, next) => {
   const token = req.headers.authorization?.split(' ')[1];
   if (!token) {
@@ -92,7 +117,7 @@ const authenticate = (req, res, next) => {
   }
 };
 
-// Route to fetch user details
+// fetches user details
 app.get('/profile', authenticate, async (req, res) => {
   try {
     const user = await User.findById(req.userId).select('-password');
@@ -103,7 +128,7 @@ app.get('/profile', authenticate, async (req, res) => {
   }
 });
 
-// Route to update user details
+// updates user details
 app.put('/profile', authenticate, async (req, res) => {
   const { firstName, lastName, email, age, contactNumber, password } = req.body;
 
@@ -134,7 +159,7 @@ app.put('/profile', authenticate, async (req, res) => {
   }
 });
 
-// Route to fetch items
+// fetches items
 app.get('/items', async (req, res) => {
   const { search, categories } = req.query;
   const query = {};
@@ -156,7 +181,7 @@ app.get('/items', async (req, res) => {
   }
 });
 
-// Route to fetch a single item by ID
+// fetches a single item by ID
 app.get('/items/:id', async (req, res) => {
   try {
     const item = await Item.findById(req.params.id);
@@ -170,7 +195,7 @@ app.get('/items/:id', async (req, res) => {
   }
 });
 
-// Route to add an item
+// adds an item
 app.post('/items', authenticate, async (req, res) => {
   const { name, description, price, category } = req.body;
 
@@ -192,8 +217,7 @@ app.post('/items', authenticate, async (req, res) => {
   }
 });
 
-// Route to add an item to the cart
-// Route to add an item to the cart
+// adds an item to the cart
 app.post('/cart', authenticate, async (req, res) => {
   const { itemId } = req.body;
 
@@ -206,12 +230,12 @@ app.post('/cart', authenticate, async (req, res) => {
     }
 
     if (item.vendor === user.firstName + ' ' + user.lastName) {
-      // If the seller attempts to add their own item, return a specific message
+      // seller attempting to add their own product to cart
       return res.status(200).json({ success: false, message: 'You cannot purchase your own product' });
     }
 
     if (user.cart.includes(itemId)) {
-      // If the item is already in the cart, do nothing
+      // buyer trying to add the same item to cart multiple times
       return res.status(200).json({ success: true, message: 'Item already in cart' });
     }
 
@@ -224,7 +248,7 @@ app.post('/cart', authenticate, async (req, res) => {
   }
 });
 
-// Route to fetch cart items
+// fetches cart items
 app.get('/cart', authenticate, async (req, res) => {
   try {
     const user = await User.findById(req.userId).populate('cart');
@@ -235,7 +259,7 @@ app.get('/cart', authenticate, async (req, res) => {
   }
 });
 
-// Route to remove an item from the cart
+// removes an item from the cart
 app.delete('/cart/:itemId', authenticate, async (req, res) => {
   const { itemId } = req.params;
 
@@ -281,7 +305,7 @@ app.post('/order', authenticate, async (req, res) => {
       await order.save();
       await Item.findByIdAndDelete(item._id);
 
-      // Remove the item from the carts of all users
+      // remove item from the carts of all users
       await User.updateMany(
         { cart: item._id },
         { $pull: { cart: item._id } }
@@ -300,7 +324,7 @@ app.post('/order', authenticate, async (req, res) => {
   }
 });
 
-// Fetch pending orders for the logged-in user (buyer)
+// fetches pending orders for the user
 app.get('/orders/pending', authenticate, async (req, res) => {
   try {
     const user = await User.findById(req.userId);
@@ -314,7 +338,7 @@ app.get('/orders/pending', authenticate, async (req, res) => {
   }
 });
 
-// Fetch completed orders for the logged-in user (buyer)
+// fetches completed orders for the user
 app.get('/orders/bought', authenticate, async (req, res) => {
   try {
     const user = await User.findById(req.userId);
@@ -341,7 +365,7 @@ app.get('/orders/sold', authenticate, async (req, res) => {
   }
 });
 
-// Fetch pending orders for the logged-in user (seller)
+// Fetch pending orders for the user
 app.get('/orders/seller/pending', authenticate, async (req, res) => {
   try {
     const user = await User.findById(req.userId);
@@ -355,7 +379,7 @@ app.get('/orders/seller/pending', authenticate, async (req, res) => {
   }
 });
 
-// Verify OTP
+// verify OTP
 app.post('/orders/:orderId/verify-otp', authenticate, async (req, res) => {
   const { otp } = req.body;
   const { orderId } = req.params;
@@ -378,7 +402,7 @@ app.post('/orders/:orderId/verify-otp', authenticate, async (req, res) => {
   }
 });
 
-// Complete transaction
+// complete transaction
 app.post('/orders/:orderId/complete', authenticate, async (req, res) => {
   const { orderId } = req.params;
 
@@ -415,6 +439,53 @@ app.post('/chat', authenticate, async (req, res) => {
     res.status(200).json({ reply });
   } catch (error) {
     console.error('Chat error:', error.response ? error.response.data : error.message);
+    res.status(500).json({ success: false, message: 'An error occurred. Please try again.' });
+  }
+});
+app.get('/api/auth/cas/login', cas.bounce, async (req, res) => {
+  const username = req.session.cas_user;
+  const email = `${username}`;
+
+  try {
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      // redirect to registration page with email pre-filled
+      return res.redirect(`http://localhost:5173/register?email=${email}`);
+    }
+
+    // user exists, create JWT token and redirect to profile
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
+    res.redirect(`http://localhost:5173/profile?token=${token}`);
+  } catch (error) {
+    console.error('CAS login error:', error);
+    res.status(500).json({ success: false, message: 'An error occurred. Please try again.' });
+  }
+});
+
+app.post('/register/cas', async (req, res) => {
+  const { firstName, lastName, email, age, contactNumber } = req.body;
+
+  try {
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ success: false, message: 'Email already registered' });
+    }
+
+    const newUser = new User({
+      firstName,
+      lastName,
+      email,
+      age,
+      contactNumber,
+      isCasUser: true
+    });
+
+    await newUser.save();
+    const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
+    res.status(201).json({ success: true, token, message: 'User registered successfully' });
+  } catch (error) {
+    console.error('CAS registration error:', error);
     res.status(500).json({ success: false, message: 'An error occurred. Please try again.' });
   }
 });

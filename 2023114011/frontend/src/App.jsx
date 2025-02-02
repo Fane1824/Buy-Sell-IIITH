@@ -7,7 +7,8 @@ function App() {
   return (
     <div>
       <h1>Welcome to Buy-Sell IIITH</h1>
-      <Link to="/register">Go to Registration</Link>
+      <Link to="/registration">Go to Registration</Link>
+      <Link to="/login">Go to Login</Link>
     </div>
   );
 }

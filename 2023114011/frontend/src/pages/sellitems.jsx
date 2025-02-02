@@ -1,8 +1,7 @@
-// filepath: /Users/ishaan/Desktop/IIIT/sem4/dass/Buy-Sell-IIITH/2023114011/frontend/src/pages/sellitems.jsx
 import { useState } from 'react';
 import axios from 'axios';
 import Navbar from '../components/navbar';
-import '../design/sellitems.css'; // Import the CSS file
+import '../design/sellitems.css'; 
 
 function SellItems() {
   const [formData, setFormData] = useState({

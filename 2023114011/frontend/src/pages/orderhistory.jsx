@@ -1,8 +1,7 @@
-// filepath: /Users/ishaan/Desktop/IIIT/sem4/dass/Buy-Sell-IIITH/2023114011/frontend/src/pages/orderhistory.jsx
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from '../components/navbar';
-import '../design/orderhistory.css'; // Import the CSS file
+import '../design/orderhistory.css'; 
 
 function OrderHistory() {
   const [activeTab, setActiveTab] = useState('pending');

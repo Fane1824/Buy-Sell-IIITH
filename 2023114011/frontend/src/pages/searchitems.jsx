@@ -1,9 +1,8 @@
-// filepath: /Users/ishaan/Desktop/IIIT/sem4/dass/Buy-Sell-IIITH/2023114011/frontend/src/pages/searchitems.jsx
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from '../components/navbar';
-import '../design/searchitems.css'; // Import the CSS file
+import '../design/searchitems.css';
 
 function SearchItems() {
   const [items, setItems] = useState([]);

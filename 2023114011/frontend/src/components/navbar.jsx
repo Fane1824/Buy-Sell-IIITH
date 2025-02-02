@@ -1,6 +1,5 @@
-// filepath: /Users/ishaan/Desktop/IIIT/sem4/dass/Buy-Sell-IIITH/2023114011/frontend/src/components/navbar.jsx
 import { Link, useNavigate } from 'react-router-dom';
-import '../design/navbar.css'; // Import the CSS file
+import '../design/navbar.css';
 
 function Navbar() {
   const navigate = useNavigate();

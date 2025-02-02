@@ -1,8 +1,7 @@
-// filepath: /Users/ishaan/Desktop/IIIT/sem4/dass/Buy-Sell-IIITH/2023114011/frontend/src/pages/deliveritems.jsx
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from '../components/navbar';
-import '../design/deliveritems.css'; // Import the CSS file
+import '../design/deliveritems.css'; 
 
 function DeliverItems() {
   const [orders, setOrders] = useState([]);

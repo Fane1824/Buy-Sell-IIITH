@@ -1,8 +1,7 @@
-// filepath: /Users/ishaan/Desktop/IIIT/sem4/dass/Buy-Sell-IIITH/2023114011/frontend/src/pages/mycart.jsx
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from '../components/navbar';
-import '../design/mycart.css'; // Import the CSS file
+import '../design/mycart.css';
 
 function MyCart() {
   const [cartItems, setCartItems] = useState([]);
