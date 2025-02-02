@@ -6,8 +6,10 @@ const cors = require('cors');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
-const User = require('./models/user'); // Import the User model
-const Item = require('./models/item'); // Import the Item model
+const User = require('./models/user');
+const Item = require('./models/item');
+const Order = require('./models/order');
+const crypto = require('crypto');
 
 dotenv.config();
 
@@ -183,6 +185,188 @@ app.post('/items', authenticate, async (req, res) => {
     res.status(201).json({ success: true, message: 'Item added successfully' });
   } catch (error) {
     console.error('Add item error:', error);
+    res.status(500).json({ success: false, message: 'An error occurred. Please try again.' });
+  }
+});
+
+// Route to add an item to the cart
+app.post('/cart', authenticate, async (req, res) => {
+  const { itemId } = req.body;
+
+  try {
+    const user = await User.findById(req.userId);
+    const item = await Item.findById(itemId);
+
+    if (!item) {
+      return res.status(404).json({ success: false, message: 'Item not found' });
+    }
+
+    if (item.vendor === user.firstName + ' ' + user.lastName) {
+      return res.status(400).json({ success: false, message: 'You cannot purchase your own product' });
+    }
+
+    user.cart.push(itemId);
+    await user.save();
+    res.status(200).json({ success: true, message: 'Item added to cart' });
+  } catch (error) {
+    console.error('Add to cart error:', error);
+    res.status(500).json({ success: false, message: 'An error occurred. Please try again.' });
+  }
+});
+
+// Route to fetch cart items
+app.get('/cart', authenticate, async (req, res) => {
+  try {
+    const user = await User.findById(req.userId).populate('cart');
+    res.status(200).json(user.cart);
+  } catch (error) {
+    console.error('Fetch cart error:', error);
+    res.status(500).json({ success: false, message: 'An error occurred. Please try again.' });
+  }
+});
+
+// Route to remove an item from the cart
+app.delete('/cart/:itemId', authenticate, async (req, res) => {
+  try {
+    const user = await User.findById(req.userId);
+    user.cart = user.cart.filter(itemId => itemId.toString() !== req.params.itemId);
+    await user.save();
+    res.status(200).json({ success: true, message: 'Item removed from cart' });
+  } catch (error) {
+    console.error('Remove from cart error:', error);
+    res.status(500).json({ success: false, message: 'An error occurred. Please try again.' });
+  }
+});
+
+app.post('/order', authenticate, async (req, res) => {
+  try {
+    const user = await User.findById(req.userId).populate('cart');
+    const items = user.cart;
+
+    if (items.length === 0) {
+      return res.status(400).json({ success: false, message: 'No items in cart' });
+    }
+
+    const orders = await Promise.all(items.map(async (item) => {
+      const otp = crypto.randomInt(100000, 999999).toString();
+      const hashedOtp = await bcrypt.hash(otp, 10);
+
+      const order = new Order({
+        itemName: item.name,
+        sellerName: item.vendor,
+        buyerName: `${user.firstName} ${user.lastName}`,
+        price: item.price,
+        status: 'pending',
+        hashedOtp,
+        unhashedOtp: otp,
+      });
+
+      await order.save();
+      await Item.findByIdAndDelete(item._id);
+
+      return order;
+    }));
+
+    user.cart = [];
+    await user.save();
+
+    res.status(200).json({ success: true, message: 'Order placed successfully', orders });
+  } catch (error) {
+    console.error('Place order error:', error);
+    res.status(500).json({ success: false, message: 'An error occurred. Please try again.' });
+  }
+});
+
+app.get('/orders/pending', authenticate, async (req, res) => {
+  try {
+    const user = await User.findById(req.userId);
+    const buyerName = `${user.firstName} ${user.lastName}`;
+    const orders = await Order.find({ buyerName, status: 'pending' });
+
+    res.status(200).json(orders);
+  } catch (error) {
+    console.error('Fetch pending orders error:', error);
+    res.status(500).json({ success: false, message: 'An error occurred. Please try again.' });
+  }
+});
+
+app.get('/orders/seller/pending', authenticate, async (req, res) => {
+  try {
+    const user = await User.findById(req.userId);
+    const sellerName = `${user.firstName} ${user.lastName}`;
+    const orders = await Order.find({ sellerName, status: 'pending' });
+
+    res.status(200).json(orders);
+  } catch (error) {
+    console.error('Fetch pending orders error:', error);
+    res.status(500).json({ success: false, message: 'An error occurred. Please try again.' });
+  }
+});
+
+app.post('/orders/:orderId/verify-otp', authenticate, async (req, res) => {
+  const { otp } = req.body;
+  const { orderId } = req.params;
+
+  try {
+    const order = await Order.findById(orderId);
+    if (!order) {
+      return res.status(404).json({ success: false, message: 'Order not found' });
+    }
+
+    const isMatch = await bcrypt.compare(otp, order.hashedOtp);
+    if (!isMatch) {
+      return res.status(400).json({ success: false, message: 'Invalid OTP' });
+    }
+
+    res.status(200).json({ success: true, message: 'OTP verified successfully' });
+  } catch (error) {
+    console.error('Verify OTP error:', error);
+    res.status(500).json({ success: false, message: 'An error occurred. Please try again.' });
+  }
+});
+
+// Complete transaction
+app.post('/orders/:orderId/complete', authenticate, async (req, res) => {
+  const { orderId } = req.params;
+
+  try {
+    const order = await Order.findById(orderId);
+    if (!order) {
+      return res.status(404).json({ success: false, message: 'Order not found' });
+    }
+
+    order.status = 'completed';
+    await order.save();
+
+    res.status(200).json({ success: true, message: 'Transaction completed successfully' });
+  } catch (error) {
+    console.error('Complete transaction error:', error);
+    res.status(500).json({ success: false, message: 'An error occurred. Please try again.' });
+  }
+});
+
+app.get('/orders/bought', authenticate, async (req, res) => {
+  try {
+    const user = await User.findById(req.userId);
+    const buyerName = `${user.firstName} ${user.lastName}`;
+    const orders = await Order.find({ buyerName, status: 'completed' });
+
+    res.status(200).json(orders);
+  } catch (error) {
+    console.error('Fetch completed orders error:', error);
+    res.status(500).json({ success: false, message: 'An error occurred. Please try again.' });
+  }
+});
+
+app.get('/orders/sold', authenticate, async (req, res) => {
+  try {
+    const user = await User.findById(req.userId);
+    const sellerName = `${user.firstName} ${user.lastName}`;
+    const orders = await Order.find({ sellerName, status: 'completed' });
+
+    res.status(200).json(orders);
+  } catch (error) {
+    console.error('Fetch completed orders error:', error);
     res.status(500).json({ success: false, message: 'An error occurred. Please try again.' });
   }
 });

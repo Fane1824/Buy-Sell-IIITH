@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
   age: Number,
   contactNumber: String,
   password: String,
+  cart: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Item' }],
 });
 
 const User = mongoose.model('User', userSchema);
