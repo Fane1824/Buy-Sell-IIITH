@@ -1,0 +1,59 @@
+/* filepath: /Users/ishaan/Desktop/IIIT/sem4/dass/Buy-Sell-IIITH/2023114011/frontend/src/design/sellitems.css */
+
+.sell-items-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .sell-items-container h1 {
+    color: #333333;
+    margin-bottom: 20px;
+  }
+  
+  .sell-items-container form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .sell-items-container input,
+  .sell-items-container textarea,
+  .sell-items-container select {
+    width: 100%;
+    max-width: 500px;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .sell-items-container button {
+    padding: 10px 20px;
+    margin-top: 10px;
+    border: none;
+    background-color: #007bff;
+    color: #ffffff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .sell-items-container button:hover {
+    background-color: #0056b3;
+  }
+  
+  .sell-items-container .error-message {
+    color: #ff0000;
+    margin-top: 20px;
+  }
+  
+  .sell-items-container .success-message {
+    color: #28a745;
+    margin-top: 20px;
+  }

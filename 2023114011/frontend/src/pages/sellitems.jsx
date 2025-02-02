@@ -1,7 +1,8 @@
-// filepath: frontend/src/pages/SellItems.jsx
+// filepath: /Users/ishaan/Desktop/IIIT/sem4/dass/Buy-Sell-IIITH/2023114011/frontend/src/pages/sellitems.jsx
 import { useState } from 'react';
 import axios from 'axios';
 import Navbar from '../components/navbar';
+import '../design/sellitems.css'; // Import the CSS file
 
 function SellItems() {
   const [formData, setFormData] = useState({
@@ -39,49 +40,51 @@ function SellItems() {
   return (
     <div>
       <Navbar />
-      <h1>Sell Items Page</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="name"
-          placeholder="Item Name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-        />
-        <textarea
-          name="description"
-          placeholder="Item Description"
-          value={formData.description}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="number"
-          name="price"
-          placeholder="Price (in rupees)"
-          value={formData.price}
-          onChange={handleChange}
-          required
-        />
-        <select
-          name="category"
-          value={formData.category}
-          onChange={handleChange}
-          required
-        >
-          <option value="">Select Category</option>
-          <option value="Grocery">Grocery</option>
-          <option value="Misc">Misc</option>
-          <option value="Books">Books</option>
-          <option value="Electronics">Electronics</option>
-          <option value="Food">Food</option>
-          <option value="Subscription">Subscription</option>
-        </select>
-        <button type="submit">Add Item</button>
-      </form>
-      {error && <p>{error}</p>}
-      {success && <p>{success}</p>}
+      <div className="sell-items-container">
+        <h1>Sell Items Page</h1>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            name="name"
+            placeholder="Item Name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+          />
+          <textarea
+            name="description"
+            placeholder="Item Description"
+            value={formData.description}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="number"
+            name="price"
+            placeholder="Price (in rupees)"
+            value={formData.price}
+            onChange={handleChange}
+            required
+          />
+          <select
+            name="category"
+            value={formData.category}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Select Category</option>
+            <option value="Grocery">Grocery</option>
+            <option value="Misc">Misc</option>
+            <option value="Books">Books</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Food">Food</option>
+            <option value="Subscription">Subscription</option>
+          </select>
+          <button type="submit">Add Item</button>
+        </form>
+        {error && <p className="error-message">{error}</p>}
+        {success && <p className="success-message">{success}</p>}
+      </div>
     </div>
   );
 }
