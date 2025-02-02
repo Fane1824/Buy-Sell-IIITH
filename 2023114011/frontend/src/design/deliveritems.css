@@ -1,0 +1,68 @@
+/* filepath: /Users/ishaan/Desktop/IIIT/sem4/dass/Buy-Sell-IIITH/2023114011/frontend/src/design/deliveritems.css */
+
+.deliver-items-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .deliver-items-container h1 {
+    color: #333333;
+    margin-bottom: 20px;
+  }
+  
+  .deliver-items-container .order {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    text-align: left;
+  }
+  
+  .deliver-items-container .order h3 {
+    margin-bottom: 10px;
+    color: #007bff;
+  }
+  
+  .deliver-items-container .order p {
+    margin: 5px 0;
+    color: #555555;
+  }
+  
+  .deliver-items-container .order input {
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .deliver-items-container button {
+    padding: 10px 20px;
+    margin-top: 10px;
+    border: none;
+    background-color: #007bff;
+    color: #ffffff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .deliver-items-container button:hover {
+    background-color: #0056b3;
+  }
+  
+  .deliver-items-container .success-message {
+    color: #28a745;
+    margin-top: 20px;
+  }
+  
+  .deliver-items-container .error-message {
+    color: #ff0000;
+    margin-top: 20px;
+  }

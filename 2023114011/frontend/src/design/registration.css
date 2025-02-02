@@ -1,0 +1,51 @@
+/* filepath: /Users/ishaan/Desktop/IIIT/sem4/dass/Buy-Sell-IIITH/2023114011/frontend/src/design/registration.css */
+
+.registration-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    padding-left: 50px;
+    padding-right: 50px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .registration-container h1 {
+    color: #333333;
+    margin-bottom: 20px;
+  }
+  
+  .registration-container form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .registration-container input {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .registration-container button {
+    padding: 10px 20px;
+    margin-top: 10px;
+    border: none;
+    background-color: #007bff;
+    color: #ffffff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .registration-container button:hover {
+    background-color: #0056b3;
+  }
+  
+  .registration-container .error-message {
+    color: #ff0000;
+    margin-top: 20px;
+  }

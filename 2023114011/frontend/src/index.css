@@ -1,3 +1,4 @@
+/* filepath: /Users/ishaan/Desktop/IIIT/sem4/dass/Buy-Sell-IIITH/2023114011/frontend/src/index.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,7 +9,7 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
+  color: rgba(0, 0, 0, 0.87); /* Change text color to black */
   background-color: #242424;
 
   font-synthesis: none;
@@ -32,6 +33,7 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  color: #000000; /* Ensure body text color is black */
 }
 
 h1 {
@@ -69,4 +71,71 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 80vh;
+  max-width: 600px;
+  margin: 0 auto;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #f0f0f0; /* Light background color */
+}
+
+.chat-box {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  background-color: #ffffff; /* White background for chat box */
+}
+
+.chat-message {
+  margin-bottom: 12px;
+  padding: 8px 12px;
+  border-radius: 16px;
+  max-width: 80%;
+  color: #000000; /* Black text color */
+}
+
+.chat-message.user {
+  align-self: flex-end;
+  background-color: #d1e7dd; /* Light green for user messages */
+}
+
+.chat-message.bot {
+  align-self: flex-start;
+  background-color: #e2e3e5; /* Light gray for bot messages */
+}
+
+.chat-input {
+  display: flex;
+  padding: 8px;
+  background-color: #ffffff; /* White background for input area */
+  border-top: 1px solid #ccc;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 8px;
+  color: #000000; /* Black text color */
+  background-color: #ffffff; /* White background for input */
+}
+
+.chat-input button {
+  padding: 8px 16px;
+  border: none;
+  background-color: #007bff; /* Blue background for button */
+  color: #ffffff; /* White text color */
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.chat-input button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
 }

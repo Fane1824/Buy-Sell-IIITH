@@ -1,0 +1,65 @@
+/* filepath: /Users/ishaan/Desktop/IIIT/sem4/dass/Buy-Sell-IIITH/2023114011/frontend/src/design/mycart.css */
+
+.my-cart-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .my-cart-container h1 {
+    color: #333333;
+    margin-bottom: 20px;
+  }
+  
+  .my-cart-container h2 {
+    color: #333333;
+    margin-top: 20px;
+  }
+  
+  .my-cart-container .cart-item {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    text-align: left;
+  }
+  
+  .my-cart-container .cart-item h3 {
+    margin-bottom: 10px;
+    color: #007bff;
+  }
+  
+  .my-cart-container .cart-item p {
+    margin: 5px 0;
+    color: #555555;
+  }
+  
+  .my-cart-container button {
+    padding: 10px 20px;
+    margin-top: 20px;
+    border: none;
+    background-color: #007bff;
+    color: #ffffff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .my-cart-container button:hover {
+    background-color: #0056b3;
+  }
+  
+  .my-cart-container .success-message {
+    color: #28a745;
+    margin-top: 20px;
+  }
+  
+  .my-cart-container .error-message {
+    color: #ff0000;
+    margin-top: 20px;
+  }

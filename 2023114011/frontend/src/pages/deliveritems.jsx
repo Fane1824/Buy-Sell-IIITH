@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from '../components/navbar';
+import '../design/deliveritems.css'; // Import the CSS file
 
 function DeliverItems() {
   const [orders, setOrders] = useState([]);
@@ -70,29 +71,31 @@ function DeliverItems() {
   return (
     <div>
       <Navbar />
-      <h1>Deliver Items</h1>
-      {error && <p>{error}</p>}
-      <div>
-        {orders.map((order) => (
-          <div key={order._id}>
-            <h3>{order.itemName}</h3>
-            <p>Price: ₹{order.price}</p>
-            <p>Buyer: {order.buyerName}</p>
-            {verifiedOrders[order._id] ? (
-              <button onClick={() => handleEndTransaction(order._id)}>End Transaction</button>
-            ) : (
-              <div>
-                <input
-                  type="text"
-                  placeholder="Enter OTP"
-                  value={otp[order._id] || ''}
-                  onChange={(e) => handleOtpChange(order._id, e.target.value)}
-                />
-                <button onClick={() => handleVerifyOtp(order._id)}>Verify</button>
-              </div>
-            )}
-          </div>
-        ))}
+      <div className="deliver-items-container">
+        <h1>Deliver Items</h1>
+        {error && <p className="error-message">{error}</p>}
+        <div>
+          {orders.map((order) => (
+            <div key={order._id} className="order">
+              <h3>{order.itemName}</h3>
+              <p>Price: ₹{order.price}</p>
+              <p>Buyer: {order.buyerName}</p>
+              {verifiedOrders[order._id] ? (
+                <button onClick={() => handleEndTransaction(order._id)}>End Transaction</button>
+              ) : (
+                <div>
+                  <input
+                    type="text"
+                    placeholder="Enter OTP"
+                    value={otp[order._id] || ''}
+                    onChange={(e) => handleOtpChange(order._id, e.target.value)}
+                  />
+                  <button onClick={() => handleVerifyOtp(order._id)}>Verify</button>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

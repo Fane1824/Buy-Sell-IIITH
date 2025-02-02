@@ -1,7 +1,8 @@
-// filepath: frontend/src/pages/Login.jsx
+// filepath: /Users/ishaan/Desktop/IIIT/sem4/dass/Buy-Sell-IIITH/2023114011/frontend/src/pages/login.jsx
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import '../design/login.css'; // Import the CSS file
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -26,7 +27,7 @@ function Login() {
   };
 
   return (
-    <div>
+    <div className="login-container">
       <h1>Login</h1>
       <form onSubmit={handleLogin}>
         <input
@@ -45,7 +46,7 @@ function Login() {
         />
         <button type="submit">Login</button>
       </form>
-      {error && <p>{error}</p>}
+      {error && <p className="error-message">{error}</p>}
       <button onClick={() => navigate('/register')}>Go to Registration</button>
     </div>
   );

@@ -1,0 +1,68 @@
+/* filepath: /Users/ishaan/Desktop/IIIT/sem4/dass/Buy-Sell-IIITH/2023114011/frontend/src/design/orderhistory.css */
+
+.order-history-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .order-history-container h1 {
+    color: #333333;
+    margin-bottom: 20px;
+  }
+  
+  .tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .tabs button {
+    padding: 10px 20px;
+    margin: 0 5px;
+    border: none;
+    background-color: #007bff;
+    color: #ffffff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .tabs button.active {
+    background-color: #0056b3;
+  }
+  
+  .tabs button:hover {
+    background-color: #0056b3;
+  }
+  
+  .tab-content {
+    text-align: left;
+  }
+  
+  .order {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+  }
+  
+  .order h3 {
+    margin-bottom: 10px;
+    color: #007bff;
+  }
+  
+  .order p {
+    margin: 5px 0;
+    color: #555555;
+  }
+  
+  .error-message {
+    color: #ff0000;
+    margin-bottom: 20px;
+  }

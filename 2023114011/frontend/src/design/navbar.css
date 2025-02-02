@@ -1,0 +1,41 @@
+/* filepath: /Users/ishaan/Desktop/IIIT/sem4/dass/Buy-Sell-IIITH/2023114011/frontend/src/design/navbar.css */
+
+nav {
+    background-color: #007bff; /* Blue background color */
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+  
+  nav ul li {
+    margin: 0 10px;
+  }
+  
+  nav ul li a,
+  nav ul li button {
+    color: #ffffff; /* White text color */
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  nav ul li a:hover,
+  nav ul li button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    color: #ffcc00; /* Change text color on hover */
+  }
+  
+  nav ul li button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }

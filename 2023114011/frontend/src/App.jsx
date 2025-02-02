@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 function App() {
   return (
     <div>
-      <h1>Welcome to the Website</h1>
+      <h1>Welcome to Buy-Sell IIITH</h1>
       <Link to="/register">Go to Registration</Link>
     </div>
   );

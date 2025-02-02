@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from '../components/navbar';
+import '../design/mycart.css'; // Import the CSS file
 
 function MyCart() {
   const [cartItems, setCartItems] = useState([]);
@@ -72,20 +73,22 @@ function MyCart() {
   return (
     <div>
       <Navbar />
-      <h1>My Cart</h1>
-      {error && <p>{error}</p>}
-      {success && <p>{success}</p>}
-      <div>
-        {cartItems.map((item) => (
-          <div key={item._id}>
-            <h3>{item.name}</h3>
-            <p>Price: ₹{item.price}</p>
-            <button onClick={() => handleRemoveFromCart(item._id)}>Remove from Cart</button>
-          </div>
-        ))}
+      <div className="my-cart-container">
+        <h1>My Cart</h1>
+        {error && <p className="error-message">{error}</p>}
+        {success && <p className="success-message">{success}</p>}
+        <div>
+          {cartItems.map((item) => (
+            <div key={item._id} className="cart-item">
+              <h3>{item.name}</h3>
+              <p>Price: ₹{item.price}</p>
+              <button onClick={() => handleRemoveFromCart(item._id)}>Remove from Cart</button>
+            </div>
+          ))}
+        </div>
+        <h2>Total Cost: ₹{totalCost}</h2>
+        <button onClick={handlePlaceOrder}>Final Order</button>
       </div>
-      <h2>Total Cost: ₹{totalCost}</h2>
-      <button onClick={handlePlaceOrder}>Final Order</button>
     </div>
   );
 }

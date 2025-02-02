@@ -1,8 +1,9 @@
-// filepath: frontend/src/pages/Profile.jsx
+// filepath: /Users/ishaan/Desktop/IIIT/sem4/dass/Buy-Sell-IIITH/2023114011/frontend/src/pages/profile.jsx
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from '../components/navbar';
 import { useNavigate } from 'react-router-dom';
+import '../design/profile.css'; // Import the CSS file
 
 function Profile() {
   const [user, setUser] = useState({});
@@ -54,59 +55,61 @@ function Profile() {
   return (
     <div>
       <Navbar />
-      <h1>Profile Page</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="firstName"
-          placeholder="First Name"
-          value={formData.firstName || ''}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="text"
-          name="lastName"
-          placeholder="Last Name"
-          value={formData.lastName || ''}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={formData.email || ''}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="number"
-          name="age"
-          placeholder="Age"
-          value={formData.age || ''}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="text"
-          name="contactNumber"
-          placeholder="Contact Number"
-          value={formData.contactNumber || ''}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          onChange={handleChange}
-        />
-        <button type="submit">Update Profile</button>
-      </form>
-      {error && <p>{error}</p>}
-      {success && <p>{success}</p>}
-      <button onClick={() => navigate('/sell-items')}>Sell Items</button>
+      <div className="profile-container">
+        <h1>Profile Page</h1>
+        <form className="profile-form" onSubmit={handleSubmit}>
+          <input
+            type="text"
+            name="firstName"
+            placeholder="First Name"
+            value={formData.firstName || ''}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="lastName"
+            placeholder="Last Name"
+            value={formData.lastName || ''}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={formData.email || ''}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="number"
+            name="age"
+            placeholder="Age"
+            value={formData.age || ''}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="contactNumber"
+            placeholder="Contact Number"
+            value={formData.contactNumber || ''}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            onChange={handleChange}
+          />
+          <button type="submit">Update Profile</button>
+        </form>
+        {error && <p>{error}</p>}
+        {success && <p className="success">{success}</p>}
+        <button className="sell-items-button" onClick={() => navigate('/sell-items')}>Sell Items</button>
+      </div>
     </div>
   );
 }

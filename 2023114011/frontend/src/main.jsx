@@ -1,3 +1,4 @@
+// filepath: /Users/ishaan/Desktop/IIIT/sem4/dass/Buy-Sell-IIITH/2023114011/frontend/src/main.jsx
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
@@ -12,6 +13,7 @@ import MyCart from './pages/mycart.jsx';
 import DeliverItems from './pages/deliveritems.jsx';
 import SellItems from './pages/sellitems.jsx';
 import ItemDetails from './pages/itemdetails.jsx';
+import Support from './pages/support.jsx';
 
 function PrivateRoute({ children }) {
   const token = localStorage.getItem('token');
@@ -32,6 +34,7 @@ createRoot(document.getElementById('root')).render(
         <Route path="/deliver-items" element={<PrivateRoute><DeliverItems /></PrivateRoute>} />
         <Route path="/sell-items" element={<PrivateRoute><SellItems /></PrivateRoute>} />
         <Route path="/items/:id" element={<PrivateRoute><ItemDetails /></PrivateRoute>} />
+        <Route path="/support" element={<PrivateRoute><Support /></PrivateRoute>} />
       </Routes>
     </Router>
   </StrictMode>,

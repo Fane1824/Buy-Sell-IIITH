@@ -1,8 +1,9 @@
-// filepath: frontend/src/pages/SearchItems.jsx
+// filepath: /Users/ishaan/Desktop/IIIT/sem4/dass/Buy-Sell-IIITH/2023114011/frontend/src/pages/searchitems.jsx
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from '../components/navbar';
+import '../design/searchitems.css'; // Import the CSS file
 
 function SearchItems() {
   const [items, setItems] = useState([]);
@@ -39,40 +40,43 @@ function SearchItems() {
   return (
     <div>
       <Navbar />
-      <h1>Search Items</h1>
-      <input
-        type="text"
-        placeholder="Search for items..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
-      <div>
-        <h3>Categories</h3>
-        {['Grocery', 'Misc', 'Books', 'Electronics', 'Food', 'Subscription'].map((category) => (
-          <label key={category}>
-            <input
-              type="checkbox"
-              value={category}
-              checked={selectedCategories.includes(category)}
-              onChange={() => handleCategoryChange(category)}
-            />
-            {category}
-          </label>
-        ))}
-      </div>
-      <div>
-        <h2>Items</h2>
-        {items.map((item) => (
-          <div key={item._id}>
-            <h3>
-              <Link to={`/items/${item._id}`}>{item.name}</Link>
-            </h3>
-            <p>Description: {item.description}</p>
-            <p>Price: ₹{item.price}</p>
-            <p>Vendor: {item.vendor}</p>
-            <p>Category: {item.category}</p>
-          </div>
-        ))}
+      <div className="search-container">
+        <h1>Search Items</h1>
+        <input
+          type="text"
+          className="search-input"
+          placeholder="Search for items..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <div className="categories">
+          <h3>Categories</h3>
+          {['Grocery', 'Misc', 'Books', 'Electronics', 'Food', 'Subscription'].map((category) => (
+            <label key={category}>
+              <input
+                type="checkbox"
+                value={category}
+                checked={selectedCategories.includes(category)}
+                onChange={() => handleCategoryChange(category)}
+              />
+              {category}
+            </label>
+          ))}
+        </div>
+        <div className="items">
+          <h2>Items</h2>
+          {items.map((item) => (
+            <div key={item._id} className="item">
+              <h3>
+                <Link to={`/items/${item._id}`}>{item.name}</Link>
+              </h3>
+              <p>Description: {item.description}</p>
+              <p>Price: ₹{item.price}</p>
+              <p>Vendor: {item.vendor}</p>
+              <p>Category: {item.category}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

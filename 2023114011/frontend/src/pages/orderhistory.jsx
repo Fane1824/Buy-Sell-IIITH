@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from '../components/navbar';
+import '../design/orderhistory.css'; // Import the CSS file
 
 function OrderHistory() {
   const [activeTab, setActiveTab] = useState('pending');
@@ -63,7 +64,7 @@ function OrderHistory() {
         return (
           <div>
             {orders.map((order) => (
-              <div key={order._id}>
+              <div key={order._id} className="order">
                 <h3>{order.itemName}</h3>
                 <p>Price: ₹{order.price}</p>
                 <p>Seller: {order.sellerName}</p>
@@ -76,7 +77,7 @@ function OrderHistory() {
         return (
           <div>
             {orders.map((order) => (
-              <div key={order._id}>
+              <div key={order._id} className="order">
                 <h3>{order.itemName}</h3>
                 <p>Price: ₹{order.price}</p>
                 <p>Seller: {order.sellerName}</p>
@@ -88,7 +89,7 @@ function OrderHistory() {
         return (
           <div>
             {orders.map((order) => (
-              <div key={order._id}>
+              <div key={order._id} className="order">
                 <h3>{order.itemName}</h3>
                 <p>Price: ₹{order.price}</p>
                 <p>Buyer: {order.buyerName}</p>
@@ -104,21 +105,23 @@ function OrderHistory() {
   return (
     <div>
       <Navbar />
-      <h1>Order History</h1>
-      <div className="tabs">
-        <button onClick={() => setActiveTab('pending')} className={activeTab === 'pending' ? 'active' : ''}>
-          Pending Orders
-        </button>
-        <button onClick={() => setActiveTab('bought')} className={activeTab === 'bought' ? 'active' : ''}>
-          Items Bought
-        </button>
-        <button onClick={() => setActiveTab('sold')} className={activeTab === 'sold' ? 'active' : ''}>
-          Items Sold
-        </button>
-      </div>
-      <div className="tab-content">
-        {error && <p>{error}</p>}
-        {renderContent()}
+      <div className="order-history-container">
+        <h1>Order History</h1>
+        <div className="tabs">
+          <button onClick={() => setActiveTab('pending')} className={activeTab === 'pending' ? 'active' : ''}>
+            Pending Orders
+          </button>
+          <button onClick={() => setActiveTab('bought')} className={activeTab === 'bought' ? 'active' : ''}>
+            Items Bought
+          </button>
+          <button onClick={() => setActiveTab('sold')} className={activeTab === 'sold' ? 'active' : ''}>
+            Items Sold
+          </button>
+        </div>
+        <div className="tab-content">
+          {error && <p className="error-message">{error}</p>}
+          {renderContent()}
+        </div>
       </div>
     </div>
   );

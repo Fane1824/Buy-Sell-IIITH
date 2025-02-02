@@ -1,0 +1,46 @@
+/* filepath: /Users/ishaan/Desktop/IIIT/sem4/dass/Buy-Sell-IIITH/2023114011/frontend/src/design/itemdetails.css */
+
+.item-details-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .item-details-container h1 {
+    color: #333333;
+    margin-bottom: 20px;
+  }
+  
+  .item-details-container p {
+    color: #555555;
+    margin: 10px 0;
+  }
+  
+  .item-details-container button {
+    padding: 10px 20px;
+    margin-top: 20px;
+    border: none;
+    background-color: #007bff;
+    color: #ffffff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .item-details-container button:hover {
+    background-color: #0056b3;
+  }
+  
+  .item-details-container .success-message {
+    color: #28a745;
+    margin-top: 20px;
+  }
+  
+  .item-details-container .error-message {
+    color: #ff0000;
+    margin-top: 20px;
+  }

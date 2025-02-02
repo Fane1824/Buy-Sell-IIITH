@@ -1,6 +1,8 @@
+// filepath: /Users/ishaan/Desktop/IIIT/sem4/dass/Buy-Sell-IIITH/2023114011/frontend/src/pages/registration.jsx
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import '../design/registration.css'; // Import the CSS file
 
 function Registration() {
   const [formData, setFormData] = useState({
@@ -39,7 +41,7 @@ function Registration() {
   };
 
   return (
-    <div>
+    <div className="registration-container">
       <h1>Registration</h1>
       <form onSubmit={handleSubmit}>
         <input type="text" name="firstName" placeholder="First Name" onChange={handleChange} required />
@@ -50,7 +52,7 @@ function Registration() {
         <input type="password" name="password" placeholder="Password" onChange={handleChange} required />
         <button type="submit">Register</button>
       </form>
-      {error && <p>{error}</p>}
+      {error && <p className="error-message">{error}</p>}
       <button onClick={() => navigate('/login')}>Go to Login</button>
     </div>
   );
